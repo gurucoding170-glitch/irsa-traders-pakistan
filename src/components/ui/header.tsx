@@ -2,6 +2,7 @@ import { Search, ShoppingCart, User, Bell } from "lucide-react";
 import { Input } from "./input";
 import { Button } from "./button";
 import { Badge } from "./badge";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   cartCount?: number;
@@ -38,9 +39,11 @@ export const Header = ({ cartCount = 0 }: HeaderProps) => {
             )}
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-            <User className="w-5 h-5" />
-          </Button>
+          <Link to="/auth">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+              <User className="w-5 h-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
