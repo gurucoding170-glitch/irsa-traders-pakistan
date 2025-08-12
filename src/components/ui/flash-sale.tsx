@@ -2,36 +2,10 @@ import { useState, useEffect } from "react";
 import { Clock, ArrowRight } from "lucide-react";
 import { Button } from "./button";
 import { Badge } from "./badge";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const flashProducts = [
-  {
-    id: 1,
-    name: "Wireless Earbuds",
-    originalPrice: 4999,
-    salePrice: 2499,
-    discount: 50,
-    image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&h=200&fit=crop&crop=center",
-    stock: 15
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    originalPrice: 8999,
-    salePrice: 5399,
-    discount: 40,
-    image: "https://images.unsplash.com/photo-1544117519-31a4b719223d?w=200&h=200&fit=crop&crop=center",
-    stock: 8
-  },
-  {
-    id: 3,
-    name: "Phone Case",
-    originalPrice: 1999,
-    salePrice: 999,
-    discount: 50,
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=200&h=200&fit=crop&crop=center",
-    stock: 25
-  }
-];
+// Data will be fetched from Supabase
 
 export const FlashSale = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -56,6 +30,29 @@ export const FlashSale = () => {
 
     return () => clearInterval(timer);
   }, []);
+  const { data: saleData, isLoading } = useQuery({
+    queryKey: ["flash-sale"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, name, price, original_price, discount, image_url, stock")
+        .gt("stock", 0)
+        .order("discount", { ascending: false })
+        .limit(10);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const flashProducts = (saleData ?? []).map((p: any) => ({
+    id: p.id as string,
+    name: p.name as string,
+    originalPrice: p.original_price != null ? Number(p.original_price) : Number(p.price),
+    salePrice: Number(p.price),
+    discount: p.discount ?? (p.original_price ? Math.max(0, Math.round(100 - (Number(p.price) / Number(p.original_price)) * 100)) : 0),
+    image: p.image_url ?? "https://via.placeholder.com/200x200?text=Sale",
+    stock: p.stock ?? 0,
+  }));
 
   return (
     <div className="px-4 mb-6">
