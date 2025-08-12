@@ -19,7 +19,13 @@ export const Header = ({ cartCount = 0, showBack = false }: HeaderProps) => {
             variant="ghost"
             size="icon"
             className="text-white hover:bg-white/20"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+  if (window.history.state && window.history.state.idx > 0) {
+    navigate(-1);
+  } else {
+    navigate("/");
+  }
+}}
             aria-label="Go back"
           >
             <ArrowLeft className="w-5 h-5" />
