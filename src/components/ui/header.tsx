@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, User, Bell } from "lucide-react";
+import { Search, ShoppingCart, User, Bell, ArrowLeft } from "lucide-react";
 import { Input } from "./input";
 import { Button } from "./button";
 import { Badge } from "./badge";
@@ -6,13 +6,25 @@ import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   cartCount?: number;
+  showBack?: boolean;
 }
 
-export const Header = ({ cartCount = 0 }: HeaderProps) => {
+export const Header = ({ cartCount = 0, showBack = false }: HeaderProps) => {
   const navigate = useNavigate();
   return (
     <div className="sticky top-0 z-50 bg-gradient-primary shadow-elegant">
       <div className="flex items-center gap-3 p-4">
+        {showBack && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        )}
         {/* Search Bar */}
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />

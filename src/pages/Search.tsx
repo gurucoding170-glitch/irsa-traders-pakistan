@@ -36,7 +36,7 @@ const Search = () => {
 
   return (
     <MobileContainer className="pb-20">
-      <Header />
+      <Header showBack />
       <main className="px-4 py-4 space-y-4">
         <h1 className="text-lg font-bold text-foreground">Search</h1>
         <form onSubmit={onSubmit} className="flex gap-2">

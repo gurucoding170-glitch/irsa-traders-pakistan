@@ -21,7 +21,7 @@ const Category = () => {
 
   return (
     <MobileContainer className="pb-20">
-      <Header />
+      <Header showBack />
       <main className="px-4 py-4 space-y-4">
         <h1 className="text-lg font-bold text-foreground">{category?.name ?? "Category"}</h1>
         {!category ? (
