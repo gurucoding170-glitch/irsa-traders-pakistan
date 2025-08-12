@@ -8,16 +8,17 @@ import {
   Heart, 
   Gamepad2 
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const categories = [
-  { id: 1, name: "Electronics", icon: Smartphone, color: "bg-gradient-primary" },
-  { id: 2, name: "Fashion", icon: Shirt, color: "bg-gradient-secondary" },
-  { id: 3, name: "Grocery", icon: ShoppingBag, color: "bg-gradient-primary" },
-  { id: 4, name: "Home", icon: Home, color: "bg-gradient-secondary" },
-  { id: 5, name: "Automotive", icon: Car, color: "bg-gradient-primary" },
-  { id: 6, name: "Baby & Kids", icon: Baby, color: "bg-gradient-secondary" },
-  { id: 7, name: "Health", icon: Heart, color: "bg-gradient-primary" },
-  { id: 8, name: "Gaming", icon: Gamepad2, color: "bg-gradient-secondary" },
+  { id: 1, name: "Electronics", slug: "electronics", icon: Smartphone, color: "bg-gradient-primary" },
+  { id: 2, name: "Fashion", slug: "fashion", icon: Shirt, color: "bg-gradient-secondary" },
+  { id: 3, name: "Grocery", slug: "grocery", icon: ShoppingBag, color: "bg-gradient-primary" },
+  { id: 4, name: "Home", slug: "home", icon: Home, color: "bg-gradient-secondary" },
+  { id: 5, name: "Automotive", slug: "automotive", icon: Car, color: "bg-gradient-primary" },
+  { id: 6, name: "Baby & Kids", slug: "baby-kids", icon: Baby, color: "bg-gradient-secondary" },
+  { id: 7, name: "Health", slug: "health", icon: Heart, color: "bg-gradient-primary" },
+  { id: 8, name: "Gaming", slug: "gaming", icon: Gamepad2, color: "bg-gradient-secondary" },
 ];
 
 export const CategoryGrid = () => {
@@ -28,9 +29,11 @@ export const CategoryGrid = () => {
         {categories.map((category) => {
           const IconComponent = category.icon;
           return (
-            <button
+            <Link
               key={category.id}
+              to={`/category/${category.slug}`}
               className="flex flex-col items-center p-3 rounded-xl bg-card shadow-card hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 group"
+              aria-label={`Browse ${category.name}`}
             >
               <div className={`${category.color} p-3 rounded-xl mb-2 group-hover:scale-110 transition-transform duration-300`}>
                 <IconComponent className="w-6 h-6 text-white" />
@@ -38,7 +41,7 @@ export const CategoryGrid = () => {
               <span className="text-xs font-medium text-center leading-tight text-foreground">
                 {category.name}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>
