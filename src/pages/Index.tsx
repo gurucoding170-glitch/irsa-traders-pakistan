@@ -9,12 +9,19 @@ import { ProductGrid } from "@/components/ui/product-grid";
 import { BottomNav } from "@/components/ui/bottom-nav";
 
 const Index = () => {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => sessionStorage.getItem('splashDone') !== '1');
   const [activeTab, setActiveTab] = useState('home');
   const [cartCount] = useState(3); // Mock cart count
 
   if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+    return (
+      <SplashScreen
+        onComplete={() => {
+          sessionStorage.setItem('splashDone', '1');
+          setShowSplash(false);
+        }}
+      />
+    );
   }
 
   return (

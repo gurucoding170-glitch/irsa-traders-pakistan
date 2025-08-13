@@ -11,6 +11,7 @@ import Category from "./pages/Category";
 import Search from "./pages/Search";
 import Wishlist from "./pages/Wishlist";
 import Profile from "./pages/Profile";
+import { HardwareBackHandler } from "./components/HardwareBackHandler";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <HardwareBackHandler />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
