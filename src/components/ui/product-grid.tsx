@@ -5,10 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { addToCart } from "@/lib/cart";
 import { toast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 // Data fetching moved inside component
 
 export const ProductGrid = () => {
+  const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -38,7 +40,7 @@ export const ProductGrid = () => {
     <div className="px-4 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-foreground">Recommended for You</h2>
-        <Button variant="ghost" className="text-primary text-sm">
+        <Button variant="ghost" className="text-primary text-sm" onClick={() => navigate('/search')}>
           View All
         </Button>
       </div>

@@ -4,10 +4,12 @@ import { Button } from "./button";
 import { Badge } from "./badge";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 // Data will be fetched from Supabase
 
 export const FlashSale = () => {
+  const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState({
     hours: 6,
     minutes: 45,
@@ -120,6 +122,7 @@ export const FlashSale = () => {
           <Button 
             variant="ghost" 
             className="flex-shrink-0 text-white hover:bg-white/20 flex flex-col items-center justify-center min-w-[100px] h-auto py-4"
+            onClick={() => navigate('/search')}
           >
             <ArrowRight className="w-6 h-6 mb-1" />
             <span className="text-xs">View All</span>

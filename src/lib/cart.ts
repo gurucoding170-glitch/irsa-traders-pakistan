@@ -52,3 +52,27 @@ export const addToCart = async (productId: string) => {
     if (insErr) throw new Error(insErr.message);
   }
 };
+
+export const getCartCount = async (): Promise<number> => {
+  const { data: userData, error: userErr } = await supabase.auth.getUser();
+  if (userErr) return 0;
+  const userId = userData.user?.id;
+  if (!userId) return 0;
+
+  const { data: existing, error: selErr } = await supabase
+    .from("carts")
+    .select("id")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (selErr || !existing?.id) return 0;
+
+  const { data: items, error: itemsErr } = await supabase
+    .from("cart_items")
+    .select("quantity")
+    .eq("cart_id", existing.id);
+
+  if (itemsErr || !items) return 0;
+  return (items as any[]).reduce((sum, i) => sum + (i.quantity ?? 0), 0);
+};
+

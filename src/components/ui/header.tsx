@@ -3,6 +3,7 @@ import { Input } from "./input";
 import { Button } from "./button";
 import { Badge } from "./badge";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 interface HeaderProps {
   cartCount?: number;
@@ -44,11 +45,14 @@ export const Header = ({ cartCount = 0, showBack = false }: HeaderProps) => {
         
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 relative">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-white hover:bg-white/20" 
+            onClick={() => toast({ title: "No notifications", description: "You're all caught up!" })}
+            aria-label="Notifications"
+          >
             <Bell className="w-5 h-5" />
-            <Badge className="absolute -top-1 -right-1 w-4 h-4 p-0 bg-secondary text-xs">
-              3
-            </Badge>
           </Button>
           
           <Link to="/cart">
