@@ -14,18 +14,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [cartCount, setCartCount] = useState(0);
 
-  if (showSplash) {
-    return (
-      <SplashScreen
-        onComplete={() => {
-          sessionStorage.setItem('splashDone', '1');
-          setShowSplash(false);
-        }}
-      />
-    );
-  }
-
-  // Load cart count once on app load
+  // Load cart count once on app load - MUST be before any conditional returns
   useEffect(() => {
     let mounted = true;
     getCartCount()
@@ -39,6 +28,17 @@ const Index = () => {
       mounted = false;
     };
   }, []);
+
+  if (showSplash) {
+    return (
+      <SplashScreen
+        onComplete={() => {
+          sessionStorage.setItem('splashDone', '1');
+          setShowSplash(false);
+        }}
+      />
+    );
+  }
 
   return (
     <MobileContainer className="pb-20">

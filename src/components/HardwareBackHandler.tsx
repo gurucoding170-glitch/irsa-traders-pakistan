@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { App as CapacitorApp } from "@capacitor/app";
+import { Capacitor } from "@capacitor/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -9,7 +10,13 @@ export const HardwareBackHandler = () => {
   const lastBackRef = useRef(0);
 
   useEffect(() => {
+    // Only run on native platforms
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
     let handler: any;
+    
     CapacitorApp.addListener("backButton", ({ canGoBack }) => {
       const now = Date.now();
 
@@ -32,10 +39,14 @@ export const HardwareBackHandler = () => {
       }
     }).then((h) => {
       handler = h;
+    }).catch((error) => {
+      console.log('App plugin not available:', error);
     });
 
     return () => {
-      handler?.remove();
+      if (handler) {
+        handler.remove();
+      }
     };
   }, [location.pathname, navigate]);
 
