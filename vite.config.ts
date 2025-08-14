@@ -4,8 +4,8 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // Force detailed output even in production builds
-  base: mode === "development" ? "/" : "./",
+  // Always use relative paths for Capacitor compatibility
+  base: "./",
   server: {
     host: "::",
     port: 8080,
